@@ -2,8 +2,6 @@ package NotifyImkayacSimple;
 use strict;
 use warnings;
 use 5.10.0;
-use lib qw(/usr/lib/znc/modperl/);
-BEGIN { require ZNC };
 use base 'ZNC::Module';
 
 use Time::Piece;
