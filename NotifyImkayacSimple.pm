@@ -91,17 +91,19 @@ sub _notify {
     my ($nick, $channel, $message) = @_;
 
     # notification message
-    my $notification = sprintf '(%s) %s <%s>: %s', (
+    my $message = sprintf '(%s) %s <%s>: %s', (
         localtime->strftime('%Y-%m-%d %T'),
         $channel ? $channel->GetName : 'privmsg',
         $nick->GetNick,
         $message,
     );
-    infof("notify: $notification");
+    infof("notify: $message");
 
     # notify to im.kayac.com
     my $ua = LWP::UserAgent->new();
-    my $res = $ua->post('http://im.kayac.com/api/post/' . $self->{config}->{username});
+    my $res = $ua->post('http://im.kayac.com/api/post/' . $self->{config}->{username}, [
+        message => $message,
+    ]);
     $res->is_success or die $res->status_line;
     infof($res->content);
 }
